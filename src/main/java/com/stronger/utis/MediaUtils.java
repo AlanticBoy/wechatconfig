@@ -1,9 +1,12 @@
 package com.stronger.utis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
@@ -20,10 +23,17 @@ import java.net.URLConnection;
 public class MediaUtils {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
+    private static String ENCODING="UTF-8";//编码格式
+
+    private static String DOWNLOADURL="https://api.weixin.qq.com/cgi-bin/media/get";//多媒体资源下载连接
+    private static String UPLOADURL="https://api.weixin.qq.com/cgi-bin/media/upload";//多媒体资源下载连接
+
+
     /* 根据mediaId把多媒体文件下载到本地*/
     public static void download(String mediaId) throws IOException {
         String token = GenerateTokenAndSignatureUtil.getAccess_Token();
-        String url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=" + token + "&media_id=" + mediaId;
+
+        String url = DOWNLOADURL+"?access_token=" + token + "&media_id=" + mediaId;
         URL url1 = new URL(url);
         HttpsURLConnection urlConnection = (HttpsURLConnection) url1.openConnection();
         urlConnection.setRequestMethod("GET");
@@ -35,7 +45,7 @@ public class MediaUtils {
     /* 把多媒体文件上传到微信服务器*/
     public static String upload() throws IOException {
         File file = new File("F:\\test.jpg");
-        URL url = new URL("https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" + GenerateTokenAndSignatureUtil.getAccess_Token() + "&type=image");
+        URL url = new URL(UPLOADURL+"?access_token=" + GenerateTokenAndSignatureUtil.getAccess_Token() + "&type=image");
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
         urlConnection.setRequestMethod("POST");
         urlConnection.setDoInput(true);
