@@ -1,6 +1,7 @@
 package com.stronger.utis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -27,16 +28,13 @@ public class MediaUtils {
         HttpsURLConnection urlConnection = (HttpsURLConnection) url1.openConnection();
         urlConnection.setRequestMethod("GET");
         InputStream inputStream = urlConnection.getInputStream();
-
-        FileUtils.copyInputStreamToFile(inputStream, new File("F:\\test.png"));
+        FileUtils.copyInputStreamToFile(inputStream, new File("F:\\test.jpg"));
 
     }
 
     /* 把多媒体文件上传到微信服务器*/
     public static String upload() throws IOException {
-
-        //准备前期
-        File file = new File("F:\\test.png");
+        File file = new File("F:\\test.jpg");
         URL url = new URL("https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" + GenerateTokenAndSignatureUtil.getAccess_Token() + "&type=image");
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
         urlConnection.setRequestMethod("POST");
@@ -46,7 +44,7 @@ public class MediaUtils {
         urlConnection.setRequestProperty("Connection", "Keep-Alive");
         urlConnection.setRequestProperty("Charset", "UTF-8");
         //声明分割线
-        String boundary = "----------" + System.currentTimeMillis();
+        String boundary = "-----" + System.currentTimeMillis();
         urlConnection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
 
         StringBuilder sb = new StringBuilder();
