@@ -11,21 +11,14 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 @XStreamAlias("xml")
 public class ReplyImgMsg  extends Base{
 
-    private Image image;
+    private Image Image;
 
-
-    @Override
-    public String toString() {
-        return "ReplyImgMsg{" +
-                "image=" + image +
-                '}';
-    }
 
     public Image getImage() {
-        return image;
+        return Image;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setImage(Image Image) {
+        this.Image = Image;
     }
 }
